@@ -10,7 +10,7 @@ RUN ansible-galaxy collection install community.general \
   && ansible-galaxy collection install community.vmware \
   && ansible-galaxy collection install netbox.netbox \
   && ansible-galaxy collection install infoblox.nios_modules \
-
+  \
   && python3 -m pip install dnspython \
   && python3 -m pip install netaddr \
   && python3 -m pip install pynetbox \
