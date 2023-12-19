@@ -1,0 +1,11 @@
+collections:
+  - community.general
+  - ansible.netcommon
+  - community.network
+  - arubanetworks.aos_switch
+  - cisco.ios
+  - paloaltonetworks.panos
+  - junipernetworks.junos
+  - community.vmware
+  - netbox.netbox
+  - infoblox.nios_modules
