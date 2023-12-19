@@ -1,18 +1,16 @@
 FROM quay.io/ansible/awx-ee:latest
 
-RUN ansible-galaxy collection install community.general \
-  && ansible-galaxy collection install ansible.netcommon \
-  && ansible-galaxy collection install community.network \
-  && ansible-galaxy collection install arubanetworks.aos_switch \
-  && ansible-galaxy collection install cisco.ios \
-  && ansible-galaxy collection install paloaltonetworks.panos \
-  && ansible-galaxy collection install junipernetworks.junos \
-  && ansible-galaxy collection install community.vmware \
-  && ansible-galaxy collection install netbox.netbox \
-  && ansible-galaxy collection install infoblox.nios_modules \
-  \
-  && python3 -m pip install dnspython \
-  && python3 -m pip install netaddr \
-  && python3 -m pip install pynetbox \
-  && python3 -m pip install ncclient \
-  && python3 -m pip install infoblox-client
+USER root
+
+ADD galaxy_requirements.yml /tmp/galaxy_requirements.yml
+ADD pip_requirements.txt /tmp/pip_requirements.txt
+
+RUN /usr/bin/python3 -m pip install --upgrade pip
+
+# install Ansible Galaxy collections
+RUN ansible-galaxy collection install -r /tmp/galaxy_requirements.yml --collections-path /usr/share/ansible/collections
+ 
+# install Python dependencies
+RUN pip install -r /tmp/pip_requirements.txt
+
+USER 1000
