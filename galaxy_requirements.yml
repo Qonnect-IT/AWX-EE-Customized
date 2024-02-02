@@ -1,9 +1,11 @@
 collections:
   - community.general
-  - ansible.netcommon
+  #- ansible.netcommon
+  - git+https://github.com/ansible-collections/ansible.netcommon.git
   - community.network
   - arubanetworks.aos_switch
-  - cisco.ios
+  #- cisco.ios
+  - git+https://github.com/ansible-collections/cisco.ios.git
   - paloaltonetworks.panos
   - junipernetworks.junos
   - community.vmware
