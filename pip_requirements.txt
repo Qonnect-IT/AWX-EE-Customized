@@ -3,3 +3,4 @@ netaddr
 pynetbox
 ncclient
 infoblox-client
+passlib
