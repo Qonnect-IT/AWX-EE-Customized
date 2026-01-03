@@ -2,7 +2,7 @@ version: 3
 
 images:
   base_image:
-    name: python:3.11-slim
+    name: quay.io/centos/centos:stream9
 
 dependencies:
   ansible_core:
@@ -10,13 +10,26 @@ dependencies:
   ansible_runner:
     package_pip: ansible-runner
 
-  galaxy: requirements.yml
-  python: requirements.txt
+  galaxy: galaxy_requirements.yml
+  python: pip_requirements.txt
   system: bindep.txt
 
 additional_build_steps:
   prepend_base:
+    # Repo setup for python3.11 on Stream 9
+    - RUN dnf -y install dnf-plugins-core ca-certificates && dnf clean all
+    - RUN dnf config-manager --set-enabled crb
+    - RUN dnf -y install epel-release && dnf clean all
+
+    # Install Python 3.11 + pip + git (git needed for your git-based collections)
+    - RUN dnf -y install python3.11 python3.11-pip git && dnf clean all
+
+    # Ensure ansible-builder uses python3.11 (PYCMD is what their scripts call)
+    - ENV PYCMD=/usr/bin/python3.11
+
+    # Modern pip before installing ansible-core/runner
+    - RUN $PYCMD -m pip install -U pip setuptools wheel
+
+    # Use public PyPI unless you intentionally use a mirror
     - ENV PIP_INDEX_URL=https://pypi.org/simple
     - ENV PIP_EXTRA_INDEX_URL=
-    - RUN python -m pip install -U pip setuptools wheel
-    - RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client sshpass ca-certificates && rm -rf /var/lib/apt/lists/*
