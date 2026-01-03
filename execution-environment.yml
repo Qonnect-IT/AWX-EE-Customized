@@ -2,7 +2,7 @@ version: 3
 
 images:
   base_image:
-    name: quay.io/centos/centos:stream9
+    name: python:3.11-slim
 
 dependencies:
   ansible_core:
@@ -16,12 +16,7 @@ dependencies:
 
 additional_build_steps:
   prepend_base:
-    # Make sure python + pip exist BEFORE ansible-builder tries to pip install ansible-core
-    - RUN dnf -y install python3 python3-pip ca-certificates && dnf clean all
-
-    # Now pip exists, so we can safely upgrade it
-    - RUN python3 -m pip install -U pip setuptools wheel
-
-    # Force PyPI (or replace with your internal mirror)
     - ENV PIP_INDEX_URL=https://pypi.org/simple
     - ENV PIP_EXTRA_INDEX_URL=
+    - RUN python -m pip install -U pip setuptools wheel
+    - RUN apt-get update && apt-get install -y --no-install-recommends git openssh-client sshpass ca-certificates && rm -rf /var/lib/apt/lists/*
