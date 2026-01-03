@@ -16,12 +16,12 @@ dependencies:
 
 additional_build_steps:
   prepend_base:
-    # Ensure TLS trust store exists BEFORE any pip installs
-    - RUN dnf -y install ca-certificates && dnf clean all
+    # Make sure python + pip exist BEFORE ansible-builder tries to pip install ansible-core
+    - RUN dnf -y install python3 python3-pip ca-certificates && dnf clean all
 
-    # Make pip modern BEFORE ansible-builder installs ansible-core
+    # Now pip exists, so we can safely upgrade it
     - RUN python3 -m pip install -U pip setuptools wheel
 
-    # Force public PyPI (or replace with your mirror URL)
+    # Force PyPI (or replace with your internal mirror)
     - ENV PIP_INDEX_URL=https://pypi.org/simple
     - ENV PIP_EXTRA_INDEX_URL=
