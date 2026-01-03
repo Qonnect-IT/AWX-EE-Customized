@@ -5,6 +5,10 @@ USER root
 ADD galaxy_requirements.yml /tmp/galaxy_requirements.yml
 ADD pip_requirements.txt /tmp/pip_requirements.txt
 
+RUN set -xe \
+    && apt-get update -y \
+    && apt-get install -y python3-pip
+
 RUN /usr/bin/python3 -m pip install --upgrade pip
 
 # install Ansible Galaxy collections
