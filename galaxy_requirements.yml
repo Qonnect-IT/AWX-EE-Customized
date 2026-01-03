@@ -1,20 +1,12 @@
 collections:
-  - name: community.general
-
-  # ansible.netcommon from git
-  - name: ansible.netcommon
-    source: git+https://github.com/ansible-collections/ansible.netcommon.git
-
-  - name: community.network
-  - name: arubanetworks.aos_switch
-
-  # cisco.ios from git
-  - name: cisco.ios
-    source: git+https://github.com/ansible-collections/cisco.ios.git
-
-  - name: paloaltonetworks.panos
-  - name: junipernetworks.junos
-  - name: community.vmware
-  - name: netbox.netbox
-  - name: infoblox.nios_modules
-  - name: community.proxmox
+  - community.general
+  - git+https://github.com/ansible-collections/ansible.netcommon.git
+  - community.network
+  - arubanetworks.aos_switch
+  - git+https://github.com/ansible-collections/cisco.ios.git
+  - paloaltonetworks.panos
+  - junipernetworks.junos
+  - community.vmware
+  - netbox.netbox
+  - infoblox.nios_modules
+  - community.proxmox
