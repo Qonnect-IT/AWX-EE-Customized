@@ -1,1 +1,3 @@
-git [platform:rpm]
+git [platform:dpkg]
+openssh-client [platform:dpkg]
+sshpass [platform:dpkg]
