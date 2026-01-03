@@ -5,9 +5,11 @@ USER root
 ADD galaxy_requirements.yml /tmp/galaxy_requirements.yml
 ADD pip_requirements.txt /tmp/pip_requirements.txt
 
-RUN set -xe \
-    && apt-get update -y \
-    && apt-get install -y python3-pip
+RUN dnf install -y \
+      python3-pip \
+      python3-setuptools \
+      python3-wheel \
+    && dnf clean all
 
 RUN /usr/bin/python3 -m pip install --upgrade pip
 
