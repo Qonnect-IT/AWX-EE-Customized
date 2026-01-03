@@ -4,4 +4,3 @@ pynetbox
 ncclient
 infoblox-client
 passlib
-proxmoxer>=2.0
