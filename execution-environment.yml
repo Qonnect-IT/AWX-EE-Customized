@@ -2,19 +2,14 @@ version: 3
 
 images:
   base_image:
-    name: quay.io/centos/python-311:stream9
+    name: quay.io/ansible/awx-ee:24.6.1
 
 dependencies:
-  ansible_core:
-    package_pip: ansible-core==2.19.*
-  ansible_runner:
-    package_pip: ansible-runner
-
   galaxy: galaxy_requirements.yml
   python: pip_requirements.txt
   system: bindep.txt
 
 additional_build_steps:
   prepend_base:
-    - RUN dnf -y install git ca-certificates && dnf clean all
+    - RUN dnf -y install git && dnf clean all
     - RUN python3 -m pip install -U pip setuptools wheel
