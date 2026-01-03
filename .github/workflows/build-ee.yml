@@ -1,0 +1,57 @@
+name: Build AWX EE (amd64)
+
+on:
+  push: {}
+  workflow_dispatch: {}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: awx-ee-customized
+      DEFAULT_BRANCH: master   # change if your default branch is different
+      BASE_TAG: awx-ee-24.6.1
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ansible-builder
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible-builder
+
+      - name: Create build context
+        run: |
+          ansible-builder create -v3 -f execution-environment.yml
+
+      - name: Dockerhub login
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push (amd64)
+        env:
+          DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+        run: |
+          TAGS="--tag ${DOCKERHUB_USER}/${IMAGE_NAME}:${BASE_TAG} --tag ${DOCKERHUB_USER}/${IMAGE_NAME}:sha-$(echo ${GITHUB_SHA} | cut -c1-7)"
+
+          if [ "${GITHUB_REF_NAME}" = "${DEFAULT_BRANCH}" ]; then
+            TAGS="$TAGS --tag ${DOCKERHUB_USER}/${IMAGE_NAME}:latest"
+          fi
+
+          docker buildx build \
+            --platform linux/amd64 \
+            --push \
+            $TAGS \
+            -f ./context/Containerfile \
+            ./context
