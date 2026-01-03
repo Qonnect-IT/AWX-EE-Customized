@@ -1,4 +1,3 @@
----
 version: 3
 
 images:
@@ -10,11 +9,17 @@ dependencies:
     package_pip: ansible-core==2.20.*
   ansible_runner:
     package_pip: ansible-runner
-
   galaxy: requirements.yml
   python: requirements.txt
   system: bindep.txt
 
 additional_build_steps:
   append_base:
-    - RUN python3 -m pip install -U pip
+    # Make sure TLS + pip are sane
+    - RUN dnf -y install ca-certificates && dnf clean all
+    - RUN python3 -m pip install -U pip setuptools wheel
+
+  # This is the important part: make pip use PyPI explicitly in the build
+  prepend_base:
+    - ENV PIP_INDEX_URL=https://pypi.org/simple
+    - ENV PIP_EXTRA_INDEX_URL=
