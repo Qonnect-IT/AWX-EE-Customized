@@ -11,3 +11,4 @@ collections:
   - community.vmware
   - netbox.netbox
   - infoblox.nios_modules
+  - community.proxmox
