@@ -4,4 +4,3 @@ pynetbox
 ncclient
 infoblox-client
 passlib
-ansible-core==2.20.1
