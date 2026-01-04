@@ -17,6 +17,10 @@ dependencies:
 
   ansible_runner:
     package_pip: ansible-runner>=2.4.0
+  exclude:
+    system:
+      - openshift-clients
+      - qemu-img
 
 additional_build_files:
   - src: ansible.cfg
