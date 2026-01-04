@@ -34,7 +34,7 @@ additional_build_steps:
     - USER root
     - RUN mkdir -p /var/run/receptor && chown 1000:0 /var/run/receptor
     - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
-    - COPY run.sh /run.sh
+    - COPY _build/configs/run.sh /run.sh
     - RUN chmod +x /run.sh
 
   append_final:
