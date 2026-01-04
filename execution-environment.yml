@@ -18,6 +18,8 @@ dependencies:
 additional_build_files:
   - src: ansible.cfg
     dest: configs
+  - src: run.sh
+    dest: scripts
 
 additional_build_steps:
   prepend_base:
@@ -34,7 +36,7 @@ additional_build_steps:
     - USER root
     - RUN mkdir -p /var/run/receptor && chown 1000:0 /var/run/receptor
     - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
-    - COPY _build/configs/run.sh /run.sh
+    - COPY _build/scripts/run.sh /run.sh
     - RUN chmod +x /run.sh
 
   append_final:
