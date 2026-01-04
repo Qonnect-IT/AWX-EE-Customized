@@ -1,12 +1,49 @@
 collections:
-  - community.general
-  - git+https://github.com/ansible-collections/ansible.netcommon.git
-  - community.network
-  - arubanetworks.aos_switch
-  - git+https://github.com/ansible-collections/cisco.ios.git
-  - paloaltonetworks.panos
-  - junipernetworks.junos
-  - community.vmware
-  - netbox.netbox
-  - infoblox.nios_modules
-  - community.proxmox
+  - name: amazon.aws
+    version: "8.0.1"
+  - name: ansible.netcommon
+    version: "8.2.0"
+  - name: ansible.posix
+    version: "1.5.4"
+  - name: ansible.utils
+    version: "6.0.0"
+  - name: ansible.windows
+    version: "2.4.0"
+  - name: arubanetworks.aos_switch
+    version: "1.7.0"
+  - name: awx.awx
+    version: "24.6.0"
+  - name: azure.azcollection
+    version: "2.6.0"
+  - name: cisco.ios
+    version: "11.2.0"
+  - name: community.general
+    version: "12.2.0"
+  - name: community.network
+    version: "5.1.0"
+  - name: community.proxmox
+    version: "1.5.0"
+  - name: community.vmware
+    version: "4.4.0"
+  - name: google.cloud
+    version: "1.3.0"
+  - name: infoblox.nios_modules
+    version: "1.8.0"
+  - name: junipernetworks.junos
+    version: "11.0.0"
+  - name: kubernetes.core
+    version: "4.0.0"
+  - name: kubevirt.core
+    version: "1.4.0"
+  - name: netbox.netbox
+    version: "3.22.0"
+  - name: openstack.cloud
+    version: "2.2.0"
+  - name: ovirt.ovirt
+    version: "3.2.0"
+  - name: paloaltonetworks.panos
+    version: "3.2.0"
+  - name: redhatinsights.insights
+    version: "1.2.2"
+  - name: theforeman.foreman
+    version: "4.0.0"
