@@ -17,7 +17,7 @@ dependencies:
 
   ansible_runner:
     package_pip: ansible-runner>=2.4.0
-  
+
   exclude:
     system:
       - openshift-clients
@@ -49,10 +49,11 @@ additional_build_steps:
     - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
     - COPY _build/scripts/run.sh /run.sh
     - RUN chmod +x /run.sh
-additional_build_steps:
+
   append_final:
     - RUN ansible --version
-    - RUN python3 -m pip install --no-cache-dir -r /tmp/src/pip_requirements.txt || true
+    - RUN ls -l /tmp/src || true
+    - RUN cat /tmp/src/requirements.txt || true
     - RUN python3 -m pip show infoblox-client
     - RUN mkdir -p /usr/share/ansible/collections
     - RUN ANSIBLE_COLLECTIONS_PATH=/usr/share/ansible/collections ansible-doc -t inventory infoblox.nios_modules.nios_inventory
