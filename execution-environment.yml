@@ -52,6 +52,7 @@ additional_build_steps:
 
   append_final:
     - RUN ansible --version
-    - RUN ansible-galaxy collection list | grep infoblox
+    - RUN mkdir -p /usr/share/ansible/collections
+    - RUN ANSIBLE_COLLECTIONS_PATH=/usr/share/ansible/collections ansible-galaxy collection list | grep infoblox || true
     - RUN python3 -m pip show infoblox-client
-    - RUN ansible-doc -t inventory infoblox.nios_modules.nios_inventory
+    - RUN ANSIBLE_COLLECTIONS_PATH=/usr/share/ansible/collections ansible-doc -t inventory infoblox.nios_modules.nios_inventory
