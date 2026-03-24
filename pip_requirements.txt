@@ -2,5 +2,5 @@ dnspython
 netaddr
 pynetbox
 ncclient
-infoblox-client
+infoblox-client==0.6.2
 passlib
