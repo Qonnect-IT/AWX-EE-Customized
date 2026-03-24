@@ -1,3 +1,4 @@
+---
 version: 3
 
 images:
@@ -28,6 +29,8 @@ additional_build_files:
     dest: configs
   - src: run.sh
     dest: scripts
+  - src: pip_requirements.txt
+    dest: requirements
 
 additional_build_steps:
   prepend_base:
@@ -48,12 +51,12 @@ additional_build_steps:
     - RUN mkdir -p /var/run/receptor && chown 1000:0 /var/run/receptor
     - COPY _build/configs/ansible.cfg /etc/ansible/ansible.cfg
     - COPY _build/scripts/run.sh /run.sh
+    - COPY _build/requirements/pip_requirements.txt /tmp/pip_requirements.txt
     - RUN chmod +x /run.sh
 
   append_final:
-    - RUN ansible --version
-    - RUN ls -l /tmp/src || true
-    - RUN cat /tmp/src/requirements.txt || true
+    - RUN python3 -m pip install --no-cache-dir -r /tmp/pip_requirements.txt
     - RUN python3 -m pip show infoblox-client
+    - RUN ansible --version
     - RUN mkdir -p /usr/share/ansible/collections
     - RUN ANSIBLE_COLLECTIONS_PATH=/usr/share/ansible/collections ansible-doc -t inventory infoblox.nios_modules.nios_inventory
