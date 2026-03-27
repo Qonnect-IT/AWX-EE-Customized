@@ -44,6 +44,10 @@ additional_build_steps:
       RUN if ! id -u runner >/dev/null 2>&1; then \
         useradd -u 1000 -g 0 -d /home/runner -m runner; \
       fi
+    - |
+      RUN echo "==== FULL REQUIREMENTS ====" && cat /tmp/src/requirements.txt
+    - |
+      RUN echo "==== XMLTODICT LINES ====" && grep -n xmltodict /tmp/src/requirements.txt || true
 
   prepend_final:
     - COPY --from=quay.io/ansible/receptor:latest /usr/bin/receptor /usr/bin/receptor
