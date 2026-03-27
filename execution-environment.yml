@@ -44,10 +44,14 @@ additional_build_steps:
       RUN if ! id -u runner >/dev/null 2>&1; then \
         useradd -u 1000 -g 0 -d /home/runner -m runner; \
       fi
+
+  append_builder:
     - |
-      RUN echo "==== FULL REQUIREMENTS ====" && cat /tmp/src/requirements.txt
+      RUN echo "==== FULL REQUIREMENTS ====" && \
+          cat /tmp/src/requirements.txt || true
     - |
-      RUN echo "==== XMLTODICT LINES ====" && grep -n xmltodict /tmp/src/requirements.txt || true
+      RUN echo "==== XMLTODICT LINES ====" && \
+          grep -n xmltodict /tmp/src/requirements.txt || true
 
   prepend_final:
     - COPY --from=quay.io/ansible/receptor:latest /usr/bin/receptor /usr/bin/receptor
@@ -60,7 +64,3 @@ additional_build_steps:
 
   append_final:
     - RUN python3 -m pip install --no-cache-dir -r /tmp/pip_requirements.txt
-    - RUN python3 -m pip show infoblox-client
-    - RUN ansible --version
-    - RUN mkdir -p /usr/share/ansible/collections
-    - RUN ANSIBLE_COLLECTIONS_PATH=/usr/share/ansible/collections ansible-doc -t inventory infoblox.nios_modules.nios_inventory
